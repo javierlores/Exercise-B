@@ -21,7 +21,7 @@ public class HashTable {
      * collection
      */
      public boolean contains(long value) {
-        int hashCode = (int)(value^(value >>> 32)) % this.table.length;
+        int hashCode = hash(value);
         int hashMarker = -1; // A marker to detect if table was searched
 
         // If we found an empty slot, or if we have looped through the
@@ -56,7 +56,7 @@ public class HashTable {
      */
     public boolean insert(long value) {
         // Compute the hash code
-        int hashCode = (int)(value^(value >>> 32)) % this.table.length;
+        int hashCode = hash(value);
         int hashMarker = -1; // A marker to detect if table was searched
         int collisions = 0;  // Count the collisions to decide when to resize
 
@@ -122,4 +122,15 @@ public class HashTable {
             if (oldTable[i] != Long.MIN_VALUE)
                 insert(oldTable[i]);
       }
+
+
+     /**
+      * This function returns the hash code for {@code value}
+      *
+      * @param value the value to generate a hash code for
+      * @return the hash code for {@code value}
+      */
+     private int hash(long value) {
+         return (int)(value^(value >>> 32)) % this.table.length;
+     }
 }
