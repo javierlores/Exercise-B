@@ -80,33 +80,31 @@ public class HashTableTests {
     /**
      * This function tests the {@link src.HashTable#insert(long)} function.
      * It does so by inserting randomly generated numbers into a
-     * {@link src.HashTable} until the table is full. Then it confirms that
-     * insertion attempts return {@code false}.
+     * {@link src.HashTable} in an attempt to fill up the table. Of course,
+     * the dynamic resizing should prevent this from happening and therefore
+     * every insertion passed the orginal size of the hash table should
+     * return {@code true}
      */
     @Test
-    public void testInsertWhenTableIsFull() {
+    public void testInsertDynamicTableResizing() {
         HashTable table = new HashTable(this.CAPACITY);
 
         // Keep track of unique entries to decide if the insert should
         // be successful or unsucessful
         Set<Long> uniqueEntries = new HashSet<Long>();
 
-        // Attempt to insert the entries into the hashtable
+        // Attempt to fill up the hash table
         for (int i = 0; i < 2*this.CAPACITY; i++) {
-            // If the hash table is full, should be unsuccessfull
-            if (i >= this.CAPACITY) {
-                long entry = getRandom();
-                boolean success = table.insert(entry);
-                Assert.assertFalse(success);
-            } else {
-                long entry;
-                do {
-                    entry = getRandom();
-                } while (uniqueEntries.contains(entry));
+            // Generate the random number
+            long entry;
+            do {
+                entry = getRandom();
+            } while (uniqueEntries.contains(entry));
 
-                boolean success = table.insert(entry);
-                uniqueEntries.add(entry);
-            }
+            // Insert and check if successfull
+            boolean success = table.insert(entry);
+            Assert.assertTrue(success);
+            uniqueEntries.add(entry);
         }
     }
 
@@ -117,7 +115,7 @@ public class HashTableTests {
      * and ensures the result is {@code true}.
      */
     @Test
-    public void testContainsWhenValueIsInTableAndTableIsNotFull() {
+    public void testContainsWhenValueIsInTable() {
         HashTable table = new HashTable(this.CAPACITY);
 
         // Generate the random numbers and check if they are in the table
@@ -134,45 +132,6 @@ public class HashTableTests {
             // Check if the entry is in the table
             boolean found = table.contains(entry);
             Assert.assertTrue(found);
-        }
-    }
-
-    /**
-     * This function tests the {@link src.HashTable#contains(long)} function.
-     * It does so by generating and inserting randomly generated numbers into
-     * a {@link src.HashTable} until the table is full. Then it searches for
-     * the entry in the table and ensures the result is {@code true}.
-     */
-    @Test
-    public void testContainsWhenValueIsInTableAndTableIsFull() {
-        HashTable table = new HashTable(this.CAPACITY);
-        Set<Long> uniqueEntries = new HashSet<Long>();
-
-        // Generate the random numbers and check if they are in the table
-        for (int i = 0; i < 2*this.CAPACITY; i++) {
-            // Check if the entry is in the table once the table is full
-            if (i >= this.CAPACITY) {
-                long entry = getRandom();
-                boolean found = table.contains(entry);
-                // If the value is in the unique set, then it is in the
-                // table and the call should return true
-                if (uniqueEntries.contains(entry))
-                    Assert.assertTrue(found);
-                // If the value is not in the unique set, then it is not
-                // in the table, and the call should return false
-                else
-                    Assert.assertFalse(found);
-            // Insert the entry into the table and the unique entry set
-            } else {
-                // Generate the random number
-                long entry;
-                do {
-                    entry = getRandom();
-                } while (uniqueEntries.contains(entry));
-
-                table.insert(entry);
-                uniqueEntries.add(entry);
-            }
         }
     }
 
