@@ -23,7 +23,7 @@ public class HashTable {
      * collection
      */
      public boolean contains(long value) {
-        int hashCode = (int)(value^(value >>> 32));
+        int hashCode = (int)(value^(value >>> 32)) % this.table.length;
         int hashMarker = -1; // A marker to detect if table was searched
 
         // If we found an empty slot, or if we have looped through the
@@ -58,7 +58,7 @@ public class HashTable {
      */
     public boolean insert(long value) {
         // Compute the hash code
-        int hashCode = (int)(value^(value >>> 32));
+        int hashCode = (int)(value^(value >>> 32)) % this.table.length;
         int hashMarker = -1; // A marker to detect if table was searched
 
         // Search for an available slot for the value

@@ -204,6 +204,6 @@ public class HashTableTests {
      * @return the random long value
      */
     private long getRandom() {
-        return (long)(this.random.nextDouble()*this.CAPACITY);
+        return (long)(this.random.nextDouble()*4*this.CAPACITY);
     }
 }
