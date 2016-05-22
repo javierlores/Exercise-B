@@ -7,6 +7,11 @@ import test.HashTableTests;
 
 
 /**
+ * This classes runs the tests located {@link test.HashTableTests}
+ * for the {@link src.HashTable} class.
+ *
+ * @author Javier Lores
+ * Created on May 21, 2016
  */
 public class HashTableTestsRunner {
     public static void main(String[] args) {
