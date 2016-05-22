@@ -19,4 +19,4 @@ javadoc -cp .:test/junit.jar -d javadoc src test
 
 ## Build Jar
 -----------
-jar cf hashtable.jar src/HashTable.java
+jar cf hashtable.jar src/*.class
