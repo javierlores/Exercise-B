@@ -1,6 +1,9 @@
 # Exercise-B
 ----------- 
 
+The data structure employed in this exercise is a simple open address hashtable
+that employs linear probing for collision avoidance.
+
 ## Compile 
 ----------- 
 javac src/HashTable.java 
