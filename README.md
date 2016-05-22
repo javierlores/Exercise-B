@@ -10,10 +10,10 @@ javac -cp .:test/junit.jar:test/hamcrest.jar test/HashTableTests.java test/Hash$
 -----------
 java -cp .:test/junit.jar:test/hamcrest.jar test/HashTableTestsRunner
 
-# Documentation
+## Documentation
 -----------
 javadoc -cp .:test/junit.jar -d javadoc src test
 
-# Build Jar
+## Build Jar
 -----------
 jar cf hashtable.jar src/HashTable.java
