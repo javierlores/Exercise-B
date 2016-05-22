@@ -12,7 +12,7 @@ import org.junit.Assert;
  * This classes performs unit tests on the {@link src.HashTable} class.
  *
  * @author Javier Lores
- * @date May 21st, 2016
+ * Created May 21st, 2016
  */
 public class HashTableTests {
     private static final int CAPACITY = 10;

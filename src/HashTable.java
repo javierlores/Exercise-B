@@ -3,14 +3,15 @@ package src;
 /**
  * This class is an implementation of a HashTable. This class uses open
  * addressing and linear probing for collision resolution.
+ *
+ * @author Javier Lores
+ * Created May 21st, 2016
  */
 public class HashTable {
-    long[] table;
+    private Long[] table;
 
     public HashTable(int size) {
-        this.table = new long[size];
-        for (int i = 0; i < this.table.length; i++)
-            this.table[i] = Long.MIN_VALUE;
+        this.table = new Long[size];
     }
 
     /**
@@ -27,7 +28,7 @@ public class HashTable {
         // If we found an empty slot, or if we have looped through the
         // whole table and still haven't found the value, the value is
         // not in the table
-        while (this.table[hashCode] != Long.MIN_VALUE && hashCode != hashMarker) {
+        while (this.table[hashCode] != null && hashCode != hashMarker) {
             // Check if we found the value
             if (this.table[hashCode] == value)
                 return true;
@@ -50,7 +51,7 @@ public class HashTable {
      * returns (e.g. {@code value} was not already contained in the
      * collection)
      *
-     * @param value a long value to insert into the collection
+     * @param value a Long value to insert into the collection
      * @return {@code true} if {@code value} didn't previously exist in
      * the collection and is inserted
      */
@@ -61,7 +62,7 @@ public class HashTable {
         int collisions = 0;  // Count the collisions to decide when to resize
 
         // Search for an available slot for the value
-        while (this.table[hashCode] != Long.MIN_VALUE) {
+        while (this.table[hashCode] != null) {
             // If this value is already in the table, return false
             if (this.table[hashCode] == value)
                 return false;
@@ -83,17 +84,17 @@ public class HashTable {
             // Linear probing
             hashCode = (hashCode+1) % this.table.length;
 
-            // If there have been more than 0.25*TABLE_SIZE collisions,
-            // double the size of the hash table
+            // If there have been more than 0.5*TABLE_SIZE collisions,
+            // Long the size of the hash table
             // Note: this is an ad-hoc solution to the limitation
             // That only one instance variable may be used.
             // Normally, one would keep track of the size of the table
             // And resize when the load-factor is around 0.7
-            if (collisions > 0.25*this.table.length) {
+            if (collisions > 0.5*this.table.length) {
                 resize(2*this.table.length);
 
                 // Rest values
-                hashCode = (int)(value^(value >>> 32)) % this.table.length;
+                hashCode = hash(value);
                 hashMarker = -1;
                 collisions = 0;
             }
@@ -110,27 +111,27 @@ public class HashTable {
      * @param newSize the new size of the table
      */
     private void resize(int newSize) {
-        long[] oldTable = this.table;
-        this.table = new long[newSize];
+        Long[] oldTable = this.table;
+        this.table = new Long[newSize];
 
         // Initialize our new table
         for (int i = 0; i < this.table.length; i++)
-            this.table[i] = Long.MIN_VALUE;
+            this.table[i] = null;
 
         // Insert the old table entries into the new one
         for (int i = 0; i < oldTable.length; i++)
-            if (oldTable[i] != Long.MIN_VALUE)
+            if (oldTable[i] != null)
                 insert(oldTable[i]);
-      }
-
-
-     /**
-      * This function returns the hash code for {@code value}
-      *
-      * @param value the value to generate a hash code for
-      * @return the hash code for {@code value}
-      */
-     private int hash(long value) {
-         return (int)(value^(value >>> 32)) % this.table.length;
      }
+
+
+    /**
+     * This function returns the hash code for {@code value}
+     *
+     * @param value the value to generate a hash code for
+     * @return the hash code for {@code value}
+     */
+    private int hash(long value) {
+        return (int)(value^(value >>> 32)) % this.table.length;
+    }
 }
